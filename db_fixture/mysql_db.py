@@ -62,11 +62,20 @@ class DB:
     def close(self):
         self.conn.close()
 
+    # 初始化测试数据
+    def init_data(self,datas):
+        for table,data in datas.items():
+            self.clear(table)
+            for d in data:
+                self.inser(table,d)
+        self.close()
 
-    if __name__=='__main__':
-        db = DB()
-        table_name = 'sign_event'
-        data = {'id':1,'name':'红米','`limit`':2000,'status':1,'address':'北京会展中心','start_time':'2016-08-20 00:25:42'}
-        db.clear()
-        db.inser(table_name,data)
-        db.close()
+
+
+if __name__=='__main__':
+    db = DB()
+    table_name = 'sign_event'
+    data = {'id':1,'name':'红米','`limit`':2000,'status':1,'address':'北京会展中心','start_time':'2016-08-20 00:25:42'}
+    db.clear()
+    db.inser(table_name,data)
+    db.close()
