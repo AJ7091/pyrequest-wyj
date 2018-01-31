@@ -1,0 +1,11 @@
+db_config.ini：数据库配置文件
+
+HTMLTestRunner.py：118行改为“self.fp.write(s)”，为了解决以下报错：
+ft1.1: Traceback (most recent call last):
+  File "H:\Testing\01-项目实践\web接口开发与测试—python\pyrequest-wyj\interface_Case\add_event_test.py", line 16, in tearDown
+    print(self.result)
+  File "C:\Python36-32\lib\HTMLTestRunner.py", line 118, in write
+    self.fp.write(bytes(s,'UTF-8'))
+TypeError: string argument expected, got 'bytes'
+（期望得到字符串参数，结果得到的是字节。猜测程序将“print(self.result)”语句中的self.result信息以字节方式传递）
+
