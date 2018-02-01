@@ -5,7 +5,7 @@ from db_fixture import test_data
 class AddGuestTest(unittest.TestCase):
     '''添加嘉宾'''
     def setUp(self):
-        self.base_url = "http://127.0.0.1/api/add_guest/"
+        self.base_url = "http://127.0.0.1:8000/api/add_guest/"
 
     def test_add_guest_all_null(self):
         '''eid/realame/phone 参数为空'''
@@ -17,7 +17,7 @@ class AddGuestTest(unittest.TestCase):
 
     def test_add_guest_eid_null(self):
         '''eid=901不存在'''
-        payload = {'eid':901 , 'realnamae': 'tom' , 'phone':13700000001 , 'email':''}
+        payload = {'eid':901,'realname':'tom','phone':13700000001}
         r = requests.post(self.base_url , data=payload)
         self.result = r.json()
         self.assertEqual(self.result['status'],10022)
@@ -25,50 +25,42 @@ class AddGuestTest(unittest.TestCase):
 
     def test_add_guest_status_close(self):
         '''eid=3 状态关闭'''
-        payload = {'eid': 3, 'realnamae': 'tom', 'phone': 13700000001, 'email': ''}
+        payload = {'eid':3,'realname':'tom','phone':13700000001,'email':''}
         r = requests.post(self.base_url, data=payload)
         self.result = r.json()
-        self.assertEqual(self.result['status'], 10023)
+        self.assertEqual(self.result['status'],10023)
         self.assertEqual(self.result['message'], 'event status is not available')
 
     def test_add_guest_limit_full(self):
         '''eid=2 发布会人数已满'''
-        payload = {'eid': 2, 'realnamae': 'tom', 'phone': 13700000001, 'email': ''}
+        payload = {'eid':2,'realname':'tom','phone':13700000001,'email':''}
         r = requests.post(self.base_url, data=payload)
         self.result = r.json()
-        self.assertEqual(self.result['status'], 10024)
+        self.assertEqual(self.result['status'],10024)
         self.assertEqual(self.result['message'], 'event number is full')
 
     def test_add_guest_time_start(self):
-        '''eid=4 发布会人数已满'''
-        payload = {'eid': 4, 'realnamae': 'tom', 'phone': 13700000001, 'email': ''}
+        '''eid=4 发布会已开始'''
+        payload = {'eid':4,'realname':'tom','phone':13700000001,'email':''}
         r = requests.post(self.base_url, data=payload)
         self.result = r.json()
-        self.assertEqual(self.result['status'], 10025)
+        self.assertEqual(self.result['status'],10025)
         self.assertEqual(self.result['message'],'event has started')
 
     def test_add_guest_phone_repeat(self):
         '''eid=3，phone=13511001102 手机号重复'''
-        payload = {'eid': 3, 'realnamae': 'tom', 'phone': 13511001102, 'email': ''}
+        payload = {'eid':5,'realname':'tom','phone':13511001102,'email':''}
         r = requests.post(self.base_url, data=payload)
         self.result = r.json()
-        self.assertEqual(self.result['status'], 10026)
+        self.assertEqual(self.result['status'],10026)
         self.assertEqual(self.result['message'],'the event guest phone number repeat')
 
-    def test_add_guest_phone_repeat(self):
-        '''eid=3，phone=13511001102 手机号重复'''
-        payload = {'eid': 3, 'realnamae': 'tom', 'phone': 13511001102, 'email': ''}
-        r = requests.post(self.base_url, data=payload)
-        self.result = r.json()
-        self.assertEqual(self.result['status'], 10026)
-        self.assertEqual(self.result['message'],'the event guest phone number repeat')
-
-    def test_add_guest_phone_repeat(self):
+    def test_add_guest_success(self):
         '''添加成功'''
-        payload = {'eid': 1, 'realnamae': 'tom', 'phone': 13511001105, 'email': ''}
+        payload = {'eid':1 ,'realname':'tom','phone':13511001105,'email':''}
         r = requests.post(self.base_url, data=payload)
         self.result = r.json()
-        self.assertEqual(self.result['status'], 10027)
+        self.assertEqual(self.result['status'],200)
         self.assertEqual(self.result['message'],'add guest success')
 
     def tearDown(self):
@@ -77,3 +69,5 @@ class AddGuestTest(unittest.TestCase):
 if __name__=='__main__':
     test_data.init_data() # 初始化测试数据
     unittest.main(verbosity=2)
+
+
