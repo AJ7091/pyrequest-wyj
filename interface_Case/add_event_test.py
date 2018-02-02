@@ -5,7 +5,6 @@ parentdir=os.path.dirname(os.path.dirname(os.path.abspath(__file__))) #os.path.a
 sys.path.insert(0,parentdir)  # sys.path.insert(index,object)
 from db_fixture import test_data
 
-
 class AddEventTest(unittest.TestCase):
     '''添加发布会'''
 

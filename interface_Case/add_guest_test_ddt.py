@@ -31,7 +31,7 @@ class AddGuestTest(unittest.TestCase):
 
     @data(*get_csv_data())
     @unpack
-    def test_add_guest(self,eid,realname,phone,expected_status,expected_message):
+    def test_add_guest(self,eid,realname,phone,expected_status,expected_message,tip):
         payload={'eid':eid,'realname':realname,'phone':phone}
         r=requests.post(self.base_url,data=payload)
         self.result=r.json()
